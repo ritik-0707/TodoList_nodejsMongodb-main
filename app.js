@@ -1,8 +1,11 @@
 const express= require('express');
 const mongoose= require('mongoose');
+var morgan = require('morgan');
 const Todos = require('./models/Todos');
 
 const app=express();
+/*:remote-addr - :remote-user [:date[clf]] ":method :url HTTP/:http-version" :status :res[content-length] ":referrer" ":user-agent" */
+app.use(morgan('combined'));
 
 //connection
 mongoose.connect("mongodb://127.0.0.1/blog",{
@@ -34,7 +37,7 @@ app.get("/find",async(req,resp)=>{
     resp.render("index2",{todo:data});
    }else{
     //   resp.status(404).send("<h1>Data not found</h1>"); 
-    resp.status(404).render("partials/message.ejs"); 
+    resp.status(404).render("partials/message",{p1}); 
    }
    
 });
@@ -56,8 +59,11 @@ app.post("/add/todo",(req,resp)=>{
 
 });
 
+//note: dynamic route are always below the static one
+
 app.get("/delete/todo/:_id",(req,resp)=>{
     const p1= req.params;
+    //console.log(p1);
     //delete p1
     Todos.deleteOne(p1).then(()=>{
         console.log("sucessfully deleted!");
