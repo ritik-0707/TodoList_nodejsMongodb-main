@@ -11,9 +11,11 @@ app.use(morgan('combined'));
 mongoose.connect("mongodb://127.0.0.1/blog",{
     useNewUrlparser: true,
     useUnifiedTopology: true
-})
+});
 
 //middlewares
+
+
 app.use(express.urlencoded({extend: true}));
 app.set("view engine","ejs");
 
@@ -21,61 +23,80 @@ app.set("view engine","ejs");
 //router
 // app.use(require('./routes/index'));
 
-app.get("/",async(req,resp)=>{
+app.get("/",async(req,res)=>{
     const alltodo=await Todos.find();
-    resp.render("index",{todo: alltodo});
+    res.render("index",{todo: alltodo});
 
 });
 
 //just consoling particular todo
-app.get("/find",async(req,resp)=>{
+app.get("/find",async(req,res)=>{
     const p1= req.query.todo;
     console.log(p1);
     let data = await Todos.findOne({todo:p1})
    if(data)
    {
-    resp.render("index2",{todo:data});
+    res.render("index2",{todo:data});
    }else{
-    //   resp.status(404).send("<h1>Data not found</h1>"); 
-    resp.status(404).render("partials/message",{p1}); 
-   }
-   
+    //   res.status(404).send("<h1>Data not found</h1>"); 
+    res.status(404).render("partials/message",{p1}); 
+   }  
 });
 
 
 
 
 //app.use(require('./routes/todo'));
-app.post("/add/todo",(req,resp)=>{ 
+app.post("/add/todo",async(req,res)=>{ 
     const p1= req.body;
-    const newTodo=new Todos(p1)
-    //save p1
-    newTodo.save().then(()=>{
-        console.log("sucessfully saved!");
-        resp.redirect("/");
-    }).catch((err)=>{ 
-        console.log(err);
-    })
+    console.log(p1);
+    const newTodo=new Todos(p1);
+   try {
+     // res.send(await newTodo.save());
+     await newTodo.save()
+      res.redirect("/");
+   } catch (error) {
+       console.log(error);
+   }
+
+
+    // newTodo.save().then(()=>{
+    //     console.log("sucessfully saved!");
+    //     res.redirect("/");
+       
+    // }).catch((err)=>{ 
+    //     console.log(err);
+    // })
 
 });
 
 //note: dynamic route are always below the static one
-
-app.get("/delete/todo/:_id",(req,resp)=>{
+app.delete("/delete/:_id",async(req,res)=>{
     const p1= req.params;
-    //console.log(p1);
-    //delete p1
-    Todos.deleteOne(p1).then(()=>{
-        console.log("sucessfully deleted!");
-        resp.redirect("/");
-    }).catch((err)=>{
-        console.log(err);
-    })
+   console.log(p1);
 
+  try {
+    await Todos.deleteOne(p1);
+    console.log("sucessfully deleted!");
+    //res.render("partials/message",{p1}); 
+    res.redirect('/');
+  } catch (error) {
+    console.log(err);
+  }
+
+//    await Todos.deleteOne(p1).then(()=>{
+//        console.log("sucessfully deleted!");
+//        res.render("partials/message",{p1}); 
+//        //res.redirect("/");
+//     }).catch((err)=>{
+       
+//         console.log(err);
+//     })
 }); 
 
 
-app.post("/update/:_id",async(req,resp)=>{
+
+app.post("/update/:_id",async(req,res)=>{
     const p1= req.params; 
      let data =await  Todos.updateOne(
         {_id:p1},
@@ -84,7 +105,7 @@ app.post("/update/:_id",async(req,resp)=>{
         }
       
     )
-    resp.redirect("/");
+    res.redirect("/");
     // console.log(req.body.todo.length)
 });
 

@@ -1,9 +1,9 @@
 const mongoose=require('mongoose');
 
-const Todoschema= new mongoose.Schema({
+var Todoschema= new mongoose.Schema({
     todo:{
-        type : String, 
-        required: true
+        type: String,
+        required: true 
     },
 });
 

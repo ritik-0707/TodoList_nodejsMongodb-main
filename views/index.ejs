@@ -7,10 +7,10 @@
     <input type="submit" value="Add todo" class="btn btn-md btn-success mx-2">
   </form>
  
-
+  
   <ul class="list-group my-5">
-    <%todo.forEach(todos=>{ %>
-    <li class="list-group-item bg-light"><%= todos.todo %> <a href="/delete/todo/<%= todos._id %>" class="btn btn-danger btn-sm mx-2">Delete</a></li>
+    <%todo.forEach((todos)=>{ %>
+    <li class="list-group-item bg-light"><%= todos.todo %> <a  href="/delete/<%= todos._id %>"  class="btn btn-danger btn-sm mx-2">Delete</a></li>
     <li class="list-group-item bg-dark"> </li>
 
     <form class="d-flex" method="post" action="/update/<%= todos.id %>">

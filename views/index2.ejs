@@ -1,7 +1,8 @@
 <%- include("./partials/header") %>
 
   <ul class="list-group my-5">  
-    <li class="list-group-item bg-light"><%=todo.todo %><a href="/delete/todo/<%= todo._id %>" class="btn btn-danger btn-sm mx-2">Delete</a></li>
+    <li class="list-group-item bg-light"><%=todo.todo %><a  href="/delete/<%= todo._id %>"  class="btn btn-danger btn-sm mx-2">Delete</a></li>
+  
     <li class="list-group-item bg-dark"> </li>
     <form class="d-flex " method="post" action="/update/<%= todo.id %>">
         <input type="text" name="todo" class="form-control"  placeholder="update here.." > 
