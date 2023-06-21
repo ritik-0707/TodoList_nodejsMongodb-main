@@ -1,0 +1,14 @@
+
+  <ul class="list-group my-5">
+    <%todo.forEach((todos)=>{ %> 
+ <li class="list-group-item bg-light"><%= todos.todo %> <a  href="/delete/<%= todos._id %>"  class="btn btn-danger btn-sm mx-2">Delete</a></li> 
+    <li class="list-group-item bg-dark"> </li>
+     <form class="d-flex" method="post" action="/update/<%= todos.id %>"> 
+    <input type="text" name="todo" class="form-control"  placeholder="update here.." > 
+    <button type="submit" class="btn btn-md btn-primary my-1 mx-2 mb-2">Update</button>  
+    </form>
+     <% }) %> 
+  </ul>
+</div>
+
+

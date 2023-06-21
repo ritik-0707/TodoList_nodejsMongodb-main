@@ -1,7 +1,6 @@
 const router=require('express').Router();
 const Todos = require('../models/Todos');
 
- 
 //routes
 router.post("/add/todo",(req,resp)=>{ 
     const p1= req.body;
@@ -29,9 +28,5 @@ router.get("/delete/todo/:_id",(req,resp)=>{
     })
 
 }); 
-
-
-
-
 
 //module.exports=router;
